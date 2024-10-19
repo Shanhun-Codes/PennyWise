@@ -1,0 +1,21 @@
+#headerDiv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1em;
+}
+
+li {
+  list-style-type: none;
+  display: inline;
+  margin: 1em;
+
+}
+
+li:hover{
+    text-decoration: underline;
+}
+
+a {
+  text-decoration: none;
+}

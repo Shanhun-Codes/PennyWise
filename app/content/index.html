@@ -3,12 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/style.css">
     <script src="../lib/angular-1.8.2/angular.min.js"></script>
     <script src="../lib/angular-1.8.2/angular-route.min.js"></script>
     <script src="../lib/app.js"></script>
     <title>PennyWise</title>
   </head>
   <body>
-    <main ng-view>index</main>
+    <header ng-include="'header.html'"></header>
+    <main ng-view></main>
   </body>
 </html>

@@ -1,0 +1,20 @@
+<form ng-submit="addIncome()" name="addIncomeForm" ng-controller="StateController">
+    <label for="stateInput">Select a state:</label>
+    <input type="text" id="stateInput" ng-model="selectedState" list="stateList">
+    <datalist id="stateList">
+        <option ng-repeat="state in states" value="{{state}}"></option>
+    </datalist>
+    <input type="text" ng-model="annualIncome" placeholder="Annual income:">
+    <p>Post tax Income: {{annualIncome - (annualIncome * 0.22)}}</p>
+    <button type="submit">Add Income</button>
+</form>
+<form ng-submit="addBill()" ng-controller="BillController">
+    <label for="">Add bill</label>
+    <input type="text" name="name" ng-model="newBill.name" placeholder="Whats this bill for?">
+    <input type="float" name="dollarAmount" ng-model="newBill.dollarAmount" placeholder="Dollar amount">
+    <input type="submit" value="Add bill">
+    <ul>
+        <li ng-repeat="bill in bills">{{bill.name}} {{bill.dollarAmount}}</li>
+    </ul>
+
+</form>
