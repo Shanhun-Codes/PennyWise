@@ -7,73 +7,26 @@ pennyWiseApp.config([
       .when("/home", {
         templateUrl: "views/home.html",
       })
-      .when("/budgetInput", {
-        templateUrl: "views/budgetInput.html",
+      .when("/bills", {
+        templateUrl: "views/billsInput.html",
       })
       .otherwise({ redirectTo: "/home" });
   },
 ]);
 
 // STATE CONTROLLER
-pennyWiseApp.controller("StateController", [
+pennyWiseApp.controller("IncomeController", [
   "$scope",
   "$http",
   function ($scope, $http) {
-    $scope.states = [
-      "Alabama",
-      "Alaska",
-      "Arizona",
-      "Arkansas",
-      "California",
-      "Colorado",
-      "Connecticut",
-      "Delaware",
-      "Florida",
-      "Georgia",
-      "Hawaii",
-      "Idaho",
-      "Illinois",
-      "Indiana",
-      "Iowa",
-      "Kansas",
-      "Kentucky",
-      "Louisiana",
-      "Maine",
-      "Maryland",
-      "Massachusetts",
-      "Michigan",
-      "Minnesota",
-      "Mississippi",
-      "Missouri",
-      "Montana",
-      "Nebraska",
-      "Nevada",
-      "New Hampshire",
-      "New Jersey",
-      "New Mexico",
-      "New York",
-      "North Carolina",
-      "North Dakota",
-      "Ohio",
-      "Oklahoma",
-      "Oregon",
-      "Pennsylvania",
-      "Rhode Island",
-      "South Carolina",
-      "South Dakota",
-      "Tennessee",
-      "Texas",
-      "Utah",
-      "Vermont",
-      "Virginia",
-      "Washington",
-      "West Virginia",
-      "Wisconsin",
-      "Wyoming",
-    ];
+    $http.get("../../data/statesData.json").then( (response) => {
+        $scope.states = response.data
+    })
+
 
     $scope.addIncome = function () {
       console.log("Adding income for state:", $scope.selectedState);
+
     };
 
     $http.get("../../data/incomeData.json").then(function (response) {
@@ -111,3 +64,7 @@ pennyWiseApp.controller("BillController", [
     }
   },
 ]);
+
+pennyWiseApp.controller("BudgetController"['$scope', ($scope) => {
+
+}])
