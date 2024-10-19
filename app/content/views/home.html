@@ -1,14 +1,27 @@
 <section id="home" ng-controller="IncomeController">
-    <h1>Welcome!!</h1>
-    <p>Please complete the following informtaion, this can be updated at any time by simply completing this form again and hitting submit.</p>
-    <form ng-submit="addIncome()" name="addIncomeForm" >
-        <label for="stateInput">Select a state:</label>
-        <input type="text" id="stateInput" ng-model="selectedState" list="stateList">
-        <datalist id="stateList">
-            <option ng-repeat="state in states" value="{{state}}"></option>
-        </datalist>
-        <input type="number" ng-model="annualIncome" placeholder="Annual pre-tax income:" >
-        <p>Post tax Income: {{annualIncome - (annualIncome * 0.22) | currency}}</p>
-        <button type="submit">Add Income</button>
-    </form>
+  <h1>Welcome!!</h1>
+  <p>
+    Please complete the following informtaion, this can be updated at any time
+    by simply completing this form again and hitting submit.
+  </p>
+  <form ng-submit="addIncome()" name="addIncomeForm">
+    <!-- future development choosing state would select their current tax brackets, percentages etc. all tax info... for right now all amounts entered are minus 22% -->
+    <!-- <label for="stateInput">Select a state:</label>
+    <input
+      type="text"
+      id="stateInput"
+      ng-model="selectedState"
+      list="stateList"
+    />
+    <datalist id="stateList">
+      <option ng-repeat="state in states" value="{{state}}"></option>
+    </datalist> -->
+    <input
+    type="number"
+    ng-model="newIncome"
+    placeholder="Annual pre-tax income:"
+  />
+  <p>Post tax Income: {{postTaxIncome | currency}}</p>
+  <button type="submit">Add Income</button>
+  </form>
 </section>

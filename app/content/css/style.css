@@ -4,7 +4,7 @@ main {
   margin: 1em;
 }
 
-#home {
+#income, #home {
     text-align: center;
 }
 
@@ -17,8 +17,9 @@ section {
   justify-content: space-between;
   align-items: center;
   margin: 1em;
+  padding: 0 1em;
   background-color: red;
-  height: 100%;
+    border-radius: 0 0 2em 2em;
 }
 
 li {

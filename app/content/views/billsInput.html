@@ -1,35 +1,33 @@
-<section ng-controller="IncomeController">
-  <div ng-controller="BillController">
-    <form ng-submit="addBill()">
-      <div id="billList">
-        <input type="text" ng-model="search" placeholder="Search for bill" />
-        <ul>
-          <li
-            ng-repeat="bill in bills | orderBy: '-dollarAmount' | filter: search"
-          >
-            {{bill.name}} {{bill.dollarAmount | currency}}
-            <div class="remove" ng-click="removeBill(bill)">X</div>
-            <span>
-              {{(bill.dollarAmount / (annualIncome/12) * 100 | number:2)}}% of
-              income
-            </span>
-          </li>
-        </ul>
-      </div>
-      <label for="">Add bill:</label>
-      <input
-        type="text"
-        name="name"
-        ng-model="newBill.name"
-        placeholder="Whats this bill for?"
-      />
-      <input
-        type="float"
-        name="dollarAmount"
-        ng-model="newBill.dollarAmount"
-        placeholder="Dollar amount"
-      />
-      <input type="submit" value="Add bill" />
-    </form>
-  </div>
+<section ng-controller="BillController">
+  <form ng-submit="addBill()">
+    <div id="billList">
+      <input type="text" ng-model="search" placeholder="Search for bill" />
+      <ul>
+        <li
+          ng-repeat="bill in bills | orderBy: '-dollarAmount' | filter: search"
+        >
+          {{bill.name}} {{bill.dollarAmount | currency}}
+          <div class="remove" ng-click="removeBill(bill)">X</div>
+          <span>
+            {{(bill.dollarAmount / (postTaxIncome/12) * 100 | number:2)}}% of
+            income
+          </span>
+        </li>
+      </ul>
+    </div>
+    <label for="">Add bill:</label>
+    <input
+      type="text"
+      name="name"
+      ng-model="newBill.name"
+      placeholder="Whats this bill for?"
+    />
+    <input
+      type="float"
+      name="dollarAmount"
+      ng-model="newBill.dollarAmount"
+      placeholder="Dollar amount"
+    />
+    <input type="submit" value="Add bill" />
+  </form>
 </section>
