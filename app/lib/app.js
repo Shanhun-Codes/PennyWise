@@ -104,6 +104,10 @@ pennyWiseApp.controller("BillController", [
     };
 
     // remove listed bill functionality
-    
+    $scope.removeBill = (bill) => {
+        let removedBill = $scope.bills.indexOf(bill)
+        console.log(removedBill)
+        $scope.bills.splice(removedBill, 1)
+    }
   },
 ]);

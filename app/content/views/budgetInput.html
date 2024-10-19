@@ -15,7 +15,7 @@
         <input type="text" ng-model="search" placeholder="Search for bill">
         <ul>
             <li ng-repeat="bill in bills | orderBy: '-dollarAmount' | filter: search">{{bill.name}} {{bill.dollarAmount | currency}}
-                <div class="remove">X</div>
+                <div class="remove" ng-click="removeBill(bill)">X</div>
                 <span>
                     {{(bill.dollarAmount / (annualIncome/12) * 100 | number:2)}}% of income
                 </span>
