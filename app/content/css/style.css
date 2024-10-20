@@ -44,18 +44,18 @@ a {
 }
 
 
-#billList ul {
+#billList ul, #goalList ul {
   padding: 0;
 }
 
-#billList li {
+#billList li, #goalList li {
   display: block;
   margin: 0;
   padding: 15px 0;
   border-top: 0.5px solid;
 }
 
-#billList li span {
+#billList li span, #goalList li span {
   float: right;
 }
 
@@ -76,7 +76,8 @@ a {
 }
 
 input {
-    padding: .5em;
+    width: 15em;
+    padding: .5em .5em;
     border-radius: 2em;
 }
 

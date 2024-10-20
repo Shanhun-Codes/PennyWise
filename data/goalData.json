@@ -1,0 +1,18 @@
+[
+  {
+    "goalName": "Savings",
+    "percentage": 20
+  },
+  {
+    "goalName": "Travel",
+    "percentage": 10
+  },
+  {
+    "goalName": "Motorbike",
+    "percentage": 20
+  },
+  {
+    "goalName": "Emergency",
+    "percentage": 20
+  }
+]

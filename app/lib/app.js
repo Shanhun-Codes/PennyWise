@@ -79,10 +79,9 @@ pennyWiseApp.controller("BillController", [
 
       // calculate percentage
       let billAmount = parseInt(Math.ceil($scope.newBill.dollarAmount));
-      let billPercentage = (
-        (billAmount / ($scope.postTaxIncome / 12)) *
-        100
-      ).toFixed(2);
+      let billPercentage = Math.ceil(
+        (billAmount / ($scope.postTaxIncome / 12)) * 100
+      );
 
       // Add the bill
       $scope.bills.push({
@@ -130,15 +129,19 @@ pennyWiseApp.controller("BillController", [
 
     // When the controller initializes, retrieve the stored value
     $scope.totalAmountOfBills =
-      JSON.parse($window.localStorage.getItem("totalAmountOfBills")) || 0;
-  },
+    JSON.parse($window.localStorage.getItem("totalAmountOfBills")) || 0;
+},
 ]);
 
 pennyWiseApp.controller("BudgetController", [
-  "$scope",
-  "$window",
-  ($scope, $window) => {
-    // get bills total and posttax income from local storage
+    "$scope",
+    "$window",'$http',
+    ($scope, $window, $http) => {
+        // get goalData
+        $http.get('../../data/goalData.json').then((response) => {
+            $scope.goals = response.data
+        })
+        // get bills total and posttax income from local storage
     $scope.postTaxIncome =
       JSON.parse($window.localStorage.getItem("postTaxIncome")) || 0;
     $scope.totalAmountOfBills =
@@ -153,7 +156,8 @@ pennyWiseApp.controller("BudgetController", [
     $scope.selectedPayFrequency = "";
     $scope.frequencyMessage = "";
     $scope.billTransfer = 0;
-    $scope.weeklyMessage = ""
+    $scope.weeklyMessage = "";
+    $scope.amountOfPays = 0;
 
     // watch for change in frequency
     $scope.$watch("selectedPayFrequency", (newValue, oldValue) => {
@@ -164,25 +168,47 @@ pennyWiseApp.controller("BudgetController", [
       switch (newValue) {
         case "Monthly":
           $scope.billTransfer = $scope.totalAmountOfBills;
+          $scope.amountOfPays = 12;
           break;
         case "Semimonthly":
           $scope.billTransfer = $scope.totalAmountOfBills / 2;
+          $scope.amountOfPays = 24;
           break;
         case "Biweekly":
           $scope.billTransfer = ($scope.totalAmountOfBills * 12) / 26;
+          $scope.amountOfPays = 26;
           break;
         case "Weekly":
-          $scope.billTransfer = $scope.totalAmountOfBills / 4;
-          $scope.weeklyMessage = "PennyWise calculates your weekly transfers based on a 50-week year. This approach ensures you'll always be ahead on your bills, providing a buffer for months with extra weeks and helping you build a small reserve over time.";
+          $scope.billTransfer = ($scope.totalAmountOfBills * 12) / 48;
+          $scope.weeklyMessage =
+            "PennyWise calculates your weekly transfers based on a 48-week year. This approach ensures you'll always be ahead on your bills, providing a buffer for months with extra weeks and helping you build a small reserve over time.";
+          $scope.amountOfPays = 48;
           break;
       }
 
       if (!newValue) {
         $scope.frequencyMessage = "";
-      } else
-        $scope.frequencyMessage = `To ensure you cover your bills, please transfer $${$scope.billTransfer.toFixed(
-          2
+        $scope.remainingPaycheck;
+      } else {
+        $scope.frequencyMessage = `To ensure you cover your bills, please transfer $${Math.ceil(
+          $scope.billTransfer
         )} into a dedicated bills account with each paycheck.`;
+        $scope.remainingPaycheckMessage =
+          "Your estimated remaining balance per paycheck is: ";
+        $scope.remainingPaycheck =
+          $scope.remainingSalary / $scope.amountOfPays - $scope.billTransfer;
+      }
+
+
+    //   end of watch
     });
+    
+    $scope.calculateTransferAmount = (goal) => {
+        if (!$scope.remainingPaycheck || !goal.percentage) {
+          return 0;
+        }
+        return $scope.remainingPaycheck * (parseFloat(goal.percentage) / 100);
+      };
+   
   },
 ]);

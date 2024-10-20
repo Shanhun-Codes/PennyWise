@@ -1,6 +1,6 @@
 <section ng-controller="BudgetController">
   <div style="text-align: center">
-    <select style="border-radius: 1em" ng-model="selectedPayFrequency">
+    <select style="border-radius: 1em; text-align: center;" ng-model="selectedPayFrequency">
       <option value="">Select Pay Frequency</option>
       <option ng-repeat="frequency in payFrequencies" value="{{frequency}}">
         {{frequency}}
@@ -8,6 +8,26 @@
     </select>
     <p id="frequencyMessage" ng-show="frequencyMessage">{{frequencyMessage}}</p>
     <small style="color: green">{{weeklyMessage}}</small>
-  </div>
+    <div>
+        <p>{{remainingPaycheckMessage}} {{remainingPaycheck | currency}}</p>
+    </div>
+</div>
+<div id="goalList">
+    <h3>Lets talk goals!!</h3>
+    <ul>
+        <li ng-repeat="goal in goals">
+            {{goal.goalName}} <small>{{goal.percentage}}%</small>
+            <span>Amount to transfer:<span style="color: green;"> {{calculateTransferAmount(goal) | currency}}</span></span>
+          </li>
+        
+    </ul>
+</div>
+    <form name="goalEntry" ng-submit="addGoal">
+        <label>Add Goal:</label>
+        <input type="text" placeholder="Name of Goal" ng-model="goalName">
+        <input type="number" placeholder="Allocate % (0-100) of leftover" ng-model="goalPercentage">
+        <button ng-submit="addGoal">Submit</button>
+    </form>
 </section>
+
 
