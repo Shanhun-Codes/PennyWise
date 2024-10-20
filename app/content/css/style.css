@@ -4,6 +4,10 @@ main {
   margin: 1em;
 }
 
+a{
+    color: black;
+}
+
 #income, #home {
     text-align: center;
 }
@@ -61,4 +65,31 @@ a {
   cursor: pointer;
   margin-left: 10px;
   background: #fff;
+}
+
+#addBillForm {
+    text-align: center;
+}
+
+input {
+    padding: .5em;
+    border-radius: 2em;
+}
+
+button {
+    padding: .5em;
+    cursor: pointer;
+    border-radius: 2em;
+    border: solid 1px;
+}
+
+button:hover {
+    border: solid 2px;
+    color: black;
+}
+
+
+/* angular styles */
+input.ng-touched.ng-invalid {
+    border: solid 2px red;
 }
