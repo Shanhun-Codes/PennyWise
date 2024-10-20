@@ -85,11 +85,12 @@ button {
     cursor: pointer;
     border-radius: 2em;
     border: solid 1px;
+    color: black;
 }
 
 button:hover {
     border: solid 2px;
-    color: black;
+
 }
 
 

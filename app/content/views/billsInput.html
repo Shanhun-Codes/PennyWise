@@ -11,34 +11,39 @@
           <span>
             {{(bill.dollarAmount / (postTaxIncome/12) * 100 | number:2)}}% of
             income
+            <!-- {{bill.percentage}} uncomment for correct dynamic code app.js ln. 90 -->
           </span>
         </li>
       </ul>
     </div>
     <div id="addBillForm">
-
-        <label for="">Add bill:</label>
-        <input
+      <label for="">Add bill:</label>
+      <input
         type="text"
         name="name"
         ng-model="newBill.name"
         ng-required="true"
         placeholder="Whats this bill for?"
-        />
-        <input
+      />
+      <input
         type="number"
         name="dollarAmount"
         ng-model="newBill.dollarAmount"
         ng-required="true"
         placeholder="Dollar amount"
-        />
-        <button type="submit">Add bill</button>
-        <div style="color: red; padding-top: 5px;">
+      />
+      <button type="submit">Add bill</button>
+      <div style="color: red; padding-top: 5px">
         <small id="error" ng.show="showError">{{errorMessage}}</small>
+      </div>
     </div>
-        <div>
-            <button ng-disabled="billEntry.$invalid" !important ng-click="finished()" style="background-color: lightgreen; margin: 1em;">Finished</button>
-        </div>
-    </div>
-  </form>
+</form>
+<div style=" text-align: center;">
+  <button
+    ng-click="finished()"
+    style="background-color: lightgreen; margin: 1em;"
+  >
+    Finished
+  </button>
+</div>
 </section>
