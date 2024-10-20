@@ -1,0 +1,13 @@
+<section ng-controller="BudgetController">
+  <div style="text-align: center">
+    <select style="border-radius: 1em" ng-model="selectedPayFrequency">
+      <option value="">Select Pay Frequency</option>
+      <option ng-repeat="frequency in payFrequencies" value="{{frequency}}">
+        {{frequency}}
+      </option>
+    </select>
+    <p id="frequencyMessage" ng-show="frequencyMessage">{{frequencyMessage}}</p>
+    <small style="color: green">{{weeklyMessage}}</small>
+  </div>
+</section>
+

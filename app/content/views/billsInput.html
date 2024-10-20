@@ -35,7 +35,9 @@
       <button type="submit">Add bill</button>
       <div style="color: red; padding-top: 5px">
         <small id="error" ng.show="showError">{{errorMessage}}</small>
-      </div>
+    </div>
+    <p>Total: {{totalAmountOfBills | currency}} | Remaining monthly balance: {{(postTaxIncome / 12) - totalAmountOfBills | currency}}</p>
+    <p>Annual post-tax remainder: {{postTaxIncome - (totalAmountOfBills * 12) | currency}}</p>
     </div>
 </form>
 <div style=" text-align: center;">

@@ -113,18 +113,76 @@ pennyWiseApp.controller("BillController", [
     );
 
     // finished btn functionality need to grab totals of all bill items and either store total in local storage or indivual key and totals. Easier and better for device storage just to store total
+    $scope.totalAmountOfBills = 0; // Initialize on the $scope
+
     $scope.finished = () => {
-        let totalAmountOfBills = 0
-        $scope.bills.map((bill) => {
-            totalAmountOfBills += bill.dollarAmount
-        })
-        console.log(totalAmountOfBills)
-        $window.localStorage.setItem('totalAmountOfBills', JSON.stringify(totalAmountOfBills))
-        $location.path('/budget')
-    }
+      $scope.totalAmountOfBills = $scope.bills.reduce((total, bill) => {
+        return total + (parseFloat(bill.dollarAmount) || 0);
+      }, 0);
+
+      console.log($scope.totalAmountOfBills);
+      $window.localStorage.setItem(
+        "totalAmountOfBills",
+        JSON.stringify($scope.totalAmountOfBills)
+      );
+      $location.path("/budget");
+    };
+
+    // When the controller initializes, retrieve the stored value
+    $scope.totalAmountOfBills =
+      JSON.parse($window.localStorage.getItem("totalAmountOfBills")) || 0;
   },
 ]);
 
-pennyWiseApp.controller(
-  "BudgetController"[("$scope", "$window", ($scope, $window) => {})]
-);
+pennyWiseApp.controller("BudgetController", [
+  "$scope",
+  "$window",
+  ($scope, $window) => {
+    // get bills total and posttax income from local storage
+    $scope.postTaxIncome =
+      JSON.parse($window.localStorage.getItem("postTaxIncome")) || 0;
+    $scope.totalAmountOfBills =
+      JSON.parse($window.localStorage.getItem("totalAmountOfBills")) || 0;
+    $scope.remainingSalary =
+      $scope.postTaxIncome - $scope.totalAmountOfBills * 12;
+    console.log($scope.remainingSalary);
+
+    // set variables for pay frequency
+    $scope.payFrequencies = ["Monthly", "Semimonthly", "Biweekly", "Weekly"];
+
+    $scope.selectedPayFrequency = "";
+    $scope.frequencyMessage = "";
+    $scope.billTransfer = 0;
+    $scope.weeklyMessage = ""
+
+    // watch for change in frequency
+    $scope.$watch("selectedPayFrequency", (newValue, oldValue) => {
+      if (newValue !== oldValue) $scope.selectedPayFrequency = newValue;
+      console.log($scope.selectedPayFrequency);
+
+      //   frequency logic
+      switch (newValue) {
+        case "Monthly":
+          $scope.billTransfer = $scope.totalAmountOfBills;
+          break;
+        case "Semimonthly":
+          $scope.billTransfer = $scope.totalAmountOfBills / 2;
+          break;
+        case "Biweekly":
+          $scope.billTransfer = ($scope.totalAmountOfBills * 12) / 26;
+          break;
+        case "Weekly":
+          $scope.billTransfer = $scope.totalAmountOfBills / 4;
+          $scope.weeklyMessage = "PennyWise calculates your weekly transfers based on a 50-week year. This approach ensures you'll always be ahead on your bills, providing a buffer for months with extra weeks and helping you build a small reserve over time.";
+          break;
+      }
+
+      if (!newValue) {
+        $scope.frequencyMessage = "";
+      } else
+        $scope.frequencyMessage = `To ensure you cover your bills, please transfer $${$scope.billTransfer.toFixed(
+          2
+        )} into a dedicated bills account with each paycheck.`;
+    });
+  },
+]);
