@@ -1,18 +1,3 @@
 [
-  {
-    "name": "Savings",
-    "percentage": 20
-  },
-  {
-    "name": "Travel",
-    "percentage": 10
-  },
-  {
-    "name": "Motorbike",
-    "percentage": 20
-  },
-  {
-    "name": "Emergency",
-    "percentage": 20
-  }
+
 ]

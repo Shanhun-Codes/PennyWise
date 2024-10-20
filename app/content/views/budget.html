@@ -14,7 +14,7 @@
 </div>
 <div id="goalList">
     <h3>Lets talk goals!!</h3>
-    <ul>
+    <ul class="list">
         <li ng-repeat="goal in goals">
             {{goal.name}} <small>{{goal.percentage}}%</small>
             <span ng-click="removeGoal(goal)" class="remove">X</span><span>Amount to transfer:<span style="color: green;"> {{calculateTransferAmount(goal) | currency}}</span></span>
@@ -24,6 +24,7 @@
         
     </ul>
 </div>
+<p>Remaining after goals: {{remainingPaycheck - calculateTotalGoalAmount() | currency}}</p>
 <form name="goalEntry" ng-submit="addGoal()" style="text-align: center;">
         <small style="color: red;">{{totalPercentageMessage}}</small><br>
         <label>Add Goal:</label>

@@ -2,7 +2,7 @@
   <form name="billEntry" ng-submit="addBill()" novalidate>
     <div id="billList">
       <input type="text" ng-model="search" placeholder="Search for bill" />
-      <ul>
+      <ul class="list">
         <li
           ng-repeat="bill in bills | orderBy: '-dollarAmount' | filter: search"
         >

@@ -1,22 +1,2 @@
 [
-  {
-    "name": "Verizon phone",
-    "dollarAmount": 72
-  },
-  {
-    "name": "Verizon home internet",
-    "dollarAmount": 103
-  },
-  {
-    "name": "Rent",
-    "dollarAmount": 770
-  },
-  {
-    "name": "Spire Energy",
-    "dollarAmount": 23
-  }, {
-    "name": "Evergy",
-    "dollarAmount": 100
-  }
-  
 ]

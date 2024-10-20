@@ -1,4 +1,4 @@
-let pennyWiseApp = angular.module("pennyWiseApp", ["ngRoute"]);
+let pennyWiseApp = angular.module("pennyWiseApp", ["ngRoute", "ngAnimate"]);
 
 pennyWiseApp.config([
   "$routeProvider",
@@ -61,9 +61,38 @@ pennyWiseApp.controller("BillController", [
     $scope.postTaxIncome =
       JSON.parse($window.localStorage.getItem("postTaxIncome")) || 0;
 
+    // Initialize bills and totalAmountOfBills
+    $scope.bills = [];
+    $scope.totalAmountOfBills = 0;
+
+    // Function to calculate total amount of bills
+    $scope.calculateTotalBills = function () {
+      $scope.totalAmountOfBills = $scope.bills.reduce((total, bill) => {
+        return total + (parseFloat(bill.dollarAmount) || 0);
+      }, 0);
+
+      // Update localStorage
+      $window.localStorage.setItem(
+        "totalAmountOfBills",
+        JSON.stringify($scope.totalAmountOfBills)
+      );
+    };
+
+    // Watch for changes in the bills array
+    $scope.$watch(
+      "bills",
+      function (newValue, oldValue) {
+        if (newValue !== oldValue) {
+          $scope.calculateTotalBills();
+        }
+      },
+      true
+    );
+
     // Get JSON Data
     $http.get("../../data/billData.json").then((response) => {
       $scope.bills = response.data;
+      $scope.calculateTotalBills(); // Calculate initial total
     });
 
     // Add bill functionality
@@ -72,7 +101,9 @@ pennyWiseApp.controller("BillController", [
       if (!$scope.newBill.name || !$scope.newBill.dollarAmount) {
         $scope.errorMessage = "Both fields are required!";
         return; // Exit the function early
-      } else $scope.errorMessage = "";
+      } else {
+        $scope.errorMessage = "";
+      }
 
       // Clear any previous error message
       $scope.formError = "";
@@ -110,24 +141,10 @@ pennyWiseApp.controller("BillController", [
       }
     );
 
-    // finished btn functionality need to grab totals of all bill items and either store total in local storage or indivual key and totals. Easier and better for device storage just to store total
-    $scope.totalAmountOfBills = 0; // Initialize on the $scope
-
+    // finished btn functionality
     $scope.finished = () => {
-      $scope.totalAmountOfBills = $scope.bills.reduce((total, bill) => {
-        return total + (parseFloat(bill.dollarAmount) || 0);
-      }, 0);
-
-      $window.localStorage.setItem(
-        "totalAmountOfBills",
-        JSON.stringify($scope.totalAmountOfBills)
-      );
       $location.path("/budget");
     };
-
-    // When the controller initializes, retrieve the stored value
-    $scope.totalAmountOfBills =
-      JSON.parse($window.localStorage.getItem("totalAmountOfBills")) || 0;
   },
 ]);
 
@@ -196,41 +213,53 @@ pennyWiseApp.controller("BudgetController", [
           $scope.remainingSalary / $scope.amountOfPays - $scope.billTransfer;
       }
       $scope.remainingPaycheck = $scope.remainingSalary / $scope.amountOfPays;
+
+      $scope.calculateTotalGoalAmount = function () {
+        return $scope.goals.reduce((total, goal) => {
+          return total + $scope.calculateTransferAmount(goal);
+        }, 0);
+      };
       //   end of watch
     });
 
     $scope.calculateTransferAmount = (goal) => {
-        if (!$scope.remainingPaycheck || !goal.percentage) {
-          return 0;
-        }
-        return $scope.remainingPaycheck * (parseFloat(goal.percentage) / 100);
-      };
+      if (!$scope.remainingPaycheck || !goal.percentage) {
+        return 0;
+      }
+      return $scope.remainingPaycheck * (parseFloat(goal.percentage) / 100);
+    };
 
     $scope.addGoal = () => {
-        if (!$scope.newGoal.name || !$scope.newGoal.percentage) {
-          $scope.totalPercentageMessage = "Please fill in both name and percentage.";
-          return;
-        }
-      
-        let newTotalPercentage = $scope.goals.reduce((total, goal) => total + parseFloat(goal.percentage), 0) + parseFloat($scope.newGoal.percentage);
-      
-        if (newTotalPercentage > 100) {
-          $scope.totalPercentageMessage = "You have selected over 100% of the remaining balance, please make an adjustment.";
-          return;
-        }
-      
-        $scope.goals.push({
-          name: $scope.newGoal.name,
-          percentage: parseFloat($scope.newGoal.percentage)
-        });
-      
-        $scope.totalPercentageMessage = '';
-        $scope.newGoal = { name: "", percentage: "" };
-      };
+      if (!$scope.newGoal.name || !$scope.newGoal.percentage) {
+        $scope.totalPercentageMessage =
+          "Please fill in both name and percentage.";
+        return;
+      }
 
-      $scope.removeGoal = (goal) => {
-        let index = $scope.goals.indexOf(goal);
-        $scope.goals.splice(index, 1);
-      };
+      let newTotalPercentage =
+        $scope.goals.reduce(
+          (total, goal) => total + parseFloat(goal.percentage),
+          0
+        ) + parseFloat($scope.newGoal.percentage);
+
+      if (newTotalPercentage > 100) {
+        $scope.totalPercentageMessage =
+          "You have selected over 100% of the remaining balance, please make an adjustment.";
+        return;
+      }
+
+      $scope.goals.push({
+        name: $scope.newGoal.name,
+        percentage: parseFloat($scope.newGoal.percentage),
+      });
+
+      $scope.totalPercentageMessage = "";
+      $scope.newGoal = { name: "", percentage: "" };
+    };
+
+    $scope.removeGoal = (goal) => {
+      let index = $scope.goals.indexOf(goal);
+      $scope.goals.splice(index, 1);
+    };
   },
 ]);
