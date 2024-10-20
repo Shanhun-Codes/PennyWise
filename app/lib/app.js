@@ -4,7 +4,7 @@ pennyWiseApp.config([
   "$routeProvider",
   ($routeProvider) => {
     $routeProvider
-      .when("/home", {
+      .when("/income", {
         templateUrl: "views/income.html",
       })
       .when("/bills", {
@@ -66,12 +66,24 @@ pennyWiseApp.controller("BillController", [
 
     // Add bill functionality
     $scope.addBill = () => {
-      $scope.bills.push({
-        name: $scope.newBill.name,
-        dollarAmount: parseInt(Math.ceil($scope.newBill.dollarAmount)),
-      });
-      //   reset inputs back to an empty string so user does not have to backspace out old entry after sumbit
-      $scope.newBill = { name: "", dollarAmount: "" };
+        // Check if both fields are filled
+        if (!$scope.newBill.name || !$scope.newBill.dollarAmount) {
+            $scope.errorMessage = "Both fields are required!";
+            return; // Exit the function early
+        } else $scope.errorMessage = ""
+    
+        // Clear any previous error message
+        $scope.formError = "";
+    
+        // Add the bill
+        $scope.bills.push({
+            name: $scope.newBill.name,
+            dollarAmount: parseInt(Math.ceil($scope.newBill.dollarAmount)),
+        });
+    
+        // Reset inputs
+        $scope.newBill = { name: "", dollarAmount: "" };
+    
     };
 
     // remove listed bill functionality

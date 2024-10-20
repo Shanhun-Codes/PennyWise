@@ -26,8 +26,11 @@ section {
     border-radius: 0 0 2em 2em;
 }
 
-li {
-  list-style-type: none;
+li{
+    list-style-type: none;
+}
+
+#headerDiv li {
   display: inline;
   margin: 1em;
 }
@@ -39,6 +42,7 @@ li:hover {
 a {
   text-decoration: none;
 }
+
 
 #billList ul {
   padding: 0;
@@ -90,6 +94,3 @@ button:hover {
 
 
 /* angular styles */
-input.ng-touched.ng-invalid {
-    border: solid 2px red;
-}

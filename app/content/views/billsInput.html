@@ -33,7 +33,9 @@
         placeholder="Dollar amount"
         />
         <button type="submit">Add bill</button>
-        <span ng.show=""></span>
+        <div style="color: red; padding-top: 5px;">
+        <small id="error" ng.show="showError">{{errorMessage}}</small>
+    </div>
         <div>
             <button ng-disabled="billEntry.$invalid" !important ng-click="finished()" style="background-color: lightgreen; margin: 1em;">Finished</button>
         </div>
