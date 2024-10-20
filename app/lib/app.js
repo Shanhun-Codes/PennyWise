@@ -97,7 +97,6 @@ pennyWiseApp.controller("BillController", [
     // remove listed bill functionality
     $scope.removeBill = (bill) => {
       let removedBill = $scope.bills.indexOf(bill);
-      console.log(removedBill);
       $scope.bills.splice(removedBill, 1);
     };
 
@@ -119,7 +118,6 @@ pennyWiseApp.controller("BillController", [
         return total + (parseFloat(bill.dollarAmount) || 0);
       }, 0);
 
-      console.log($scope.totalAmountOfBills);
       $window.localStorage.setItem(
         "totalAmountOfBills",
         JSON.stringify($scope.totalAmountOfBills)
@@ -129,26 +127,26 @@ pennyWiseApp.controller("BillController", [
 
     // When the controller initializes, retrieve the stored value
     $scope.totalAmountOfBills =
-    JSON.parse($window.localStorage.getItem("totalAmountOfBills")) || 0;
-},
+      JSON.parse($window.localStorage.getItem("totalAmountOfBills")) || 0;
+  },
 ]);
 
 pennyWiseApp.controller("BudgetController", [
-    "$scope",
-    "$window",'$http',
-    ($scope, $window, $http) => {
-        // get goalData
-        $http.get('../../data/goalData.json').then((response) => {
-            $scope.goals = response.data
-        })
-        // get bills total and posttax income from local storage
+  "$scope",
+  "$window",
+  "$http",
+  ($scope, $window, $http) => {
+    // get goalData
+    $http.get("../../data/goalData.json").then((response) => {
+      $scope.goals = response.data;
+    });
+    // get bills total and posttax income from local storage
     $scope.postTaxIncome =
       JSON.parse($window.localStorage.getItem("postTaxIncome")) || 0;
     $scope.totalAmountOfBills =
       JSON.parse($window.localStorage.getItem("totalAmountOfBills")) || 0;
     $scope.remainingSalary =
       $scope.postTaxIncome - $scope.totalAmountOfBills * 12;
-    console.log($scope.remainingSalary);
 
     // set variables for pay frequency
     $scope.payFrequencies = ["Monthly", "Semimonthly", "Biweekly", "Weekly"];
@@ -162,7 +160,6 @@ pennyWiseApp.controller("BudgetController", [
     // watch for change in frequency
     $scope.$watch("selectedPayFrequency", (newValue, oldValue) => {
       if (newValue !== oldValue) $scope.selectedPayFrequency = newValue;
-      console.log($scope.selectedPayFrequency);
 
       //   frequency logic
       switch (newValue) {
@@ -198,25 +195,42 @@ pennyWiseApp.controller("BudgetController", [
         $scope.remainingPaycheck =
           $scope.remainingSalary / $scope.amountOfPays - $scope.billTransfer;
       }
-
-
-    //   end of watch
+      $scope.remainingPaycheck = $scope.remainingSalary / $scope.amountOfPays;
+      //   end of watch
     });
-    
+
     $scope.calculateTransferAmount = (goal) => {
         if (!$scope.remainingPaycheck || !goal.percentage) {
           return 0;
         }
         return $scope.remainingPaycheck * (parseFloat(goal.percentage) / 100);
       };
-   
-      
-      $scope.addGoal = () => {
-          console.log($scope.newGoal.percentage)
-          console.log($scope.newGoal.name);
-          $scope.goals.push({name: $scope.newGoal.name, percentage: $scope.newGoal.percentage})
-          $scope.newGoal = { name: '', percentage: '' };
 
-      }
+    $scope.addGoal = () => {
+        if (!$scope.newGoal.name || !$scope.newGoal.percentage) {
+          $scope.totalPercentageMessage = "Please fill in both name and percentage.";
+          return;
+        }
+      
+        let newTotalPercentage = $scope.goals.reduce((total, goal) => total + parseFloat(goal.percentage), 0) + parseFloat($scope.newGoal.percentage);
+      
+        if (newTotalPercentage > 100) {
+          $scope.totalPercentageMessage = "You have selected over 100% of the remaining balance, please make an adjustment.";
+          return;
+        }
+      
+        $scope.goals.push({
+          name: $scope.newGoal.name,
+          percentage: parseFloat($scope.newGoal.percentage)
+        });
+      
+        $scope.totalPercentageMessage = '';
+        $scope.newGoal = { name: "", percentage: "" };
+      };
+
+      $scope.removeGoal = (goal) => {
+        let index = $scope.goals.indexOf(goal);
+        $scope.goals.splice(index, 1);
+      };
   },
 ]);

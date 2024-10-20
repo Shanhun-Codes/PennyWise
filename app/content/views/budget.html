@@ -17,12 +17,15 @@
     <ul>
         <li ng-repeat="goal in goals">
             {{goal.name}} <small>{{goal.percentage}}%</small>
-            <span>Amount to transfer:<span style="color: green;"> {{calculateTransferAmount(goal) | currency}}</span></span>
+            <span ng-click="removeGoal(goal)" class="remove">X</span><span>Amount to transfer:<span style="color: green;"> {{calculateTransferAmount(goal) | currency}}</span></span>
+            <br>
+            <small>You will save {{calculateTransferAmount(goal) * 12 | currency}} in 12 months</small>
           </li>
         
     </ul>
 </div>
-    <form name="goalEntry" ng-submit="addGoal()">
+<form name="goalEntry" ng-submit="addGoal()" style="text-align: center;">
+        <small style="color: red;">{{totalPercentageMessage}}</small><br>
         <label>Add Goal:</label>
         <input type="text" placeholder="Name of Goal" ng-model="newGoal.name">
         <input type="number" placeholder="Allocate % (0-100) of leftover" ng-model="newGoal.percentage">
