@@ -1,18 +1,18 @@
 [
   {
-    "goalName": "Savings",
+    "name": "Savings",
     "percentage": 20
   },
   {
-    "goalName": "Travel",
+    "name": "Travel",
     "percentage": 10
   },
   {
-    "goalName": "Motorbike",
+    "name": "Motorbike",
     "percentage": 20
   },
   {
-    "goalName": "Emergency",
+    "name": "Emergency",
     "percentage": 20
   }
 ]

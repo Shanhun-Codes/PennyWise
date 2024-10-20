@@ -210,5 +210,13 @@ pennyWiseApp.controller("BudgetController", [
         return $scope.remainingPaycheck * (parseFloat(goal.percentage) / 100);
       };
    
+      
+      $scope.addGoal = () => {
+          console.log($scope.newGoal.percentage)
+          console.log($scope.newGoal.name);
+          $scope.goals.push({name: $scope.newGoal.name, percentage: $scope.newGoal.percentage})
+          $scope.newGoal = { name: '', percentage: '' };
+
+      }
   },
 ]);
