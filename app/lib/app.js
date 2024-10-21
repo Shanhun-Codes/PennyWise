@@ -5,13 +5,13 @@ pennyWiseApp.config([
   ($routeProvider) => {
     $routeProvider
       .when("/income", {
-        templateUrl: "/app/content/views/income.html",
+        templateUrl: "app/content/views/income.html",
       })
       .when("/bills", {
-        templateUrl: "/app/content/views/billsInput.html",
+        templateUrl: "app/content/views/billsInput.html",
       })
       .when("/budget", {
-        templateUrl: "/app/content/views/budget.html",
+        templateUrl: "app/content/views/budget.html",
       })
       .otherwise({ redirectTo: "/income" });
   },
