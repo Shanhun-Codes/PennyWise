@@ -1,23 +1,34 @@
 <section id="income" ng-controller="IncomeController">
   <div class="income-intro">
     <h2>Welcome to PennyWise: Your Personal Finance Assistant</h2>
-    
-    <p>Let's start by understanding your financial foundation. Please enter your annual pre-tax salary below, and PennyWise will work its magic!</p>
-    
+
+    <p>
+      Let's start by understanding your financial foundation. Please enter your
+      annual pre-tax salary below, and PennyWise will work its magic!
+    </p>
+
     <ul>
       <li>We'll calculate your post-tax income</li>
       <li>You'll see a breakdown of your monthly budget</li>
       <li>We'll provide personalized savings recommendations</li>
     </ul>
-    
-    <p>Don't worry if your income changes in the future. You can update it anytime by clicking the "Income" tab in the navigation menu.</p>
-    
+
+    <p>
+      Don't worry if your income changes in the future. You can update it
+      anytime by clicking the "Income" tab in the navigation menu.
+    </p>
+
     <div class="tip-box">
       <h3>💡 Pro Tip:</h3>
-      <p>For the most accurate results, include all sources of income, such as bonuses, freelance work, or investment returns.</p>
+      <p>
+        For the most accurate results, include all sources of income, such as
+        bonuses, freelance work, or investment returns.
+      </p>
     </div>
-    
-    <p class="cta-text">Ready to take control of your finances? Let's get started!</p>
+
+    <p class="cta-text">
+      Ready to take control of your finances? Let's get started!
+    </p>
   </div>
   <form ng-submit="addIncome()" name="addIncomeForm">
     <!-- future development choosing state would select their current tax brackets, percentages etc. all tax info... for right now all amounts entered are minus 22% -->
@@ -32,13 +43,13 @@
       <option ng-repeat="state in states" value="{{state}}"></option>
     </datalist> -->
     <input
-    type="number"
-    ng-model="newIncome"
-    ng-required="true"
-    placeholder="Annual income:"
-    style="text-align: center;"
-  />
-  <p>Post tax Income: {{postTaxIncome | currency}}</p>
-  <button type="submit">Submit</button>
+      type="number"
+      ng-model="newIncome"
+      ng-required="true"
+      placeholder="Annual income:"
+      style="text-align: center"
+    />
+    <p>Post tax Income: {{postTaxIncome | currency}}</p>
+    <button type="submit">Submit</button>
   </form>
 </section>
