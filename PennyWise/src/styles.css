@@ -1,0 +1,70 @@
+/* You can add global styles to this file, and also import other style files */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1em;
+    padding: 0 1em;
+    color: #fff;
+    border-radius: 0 0 2em 2em;
+    background-image: url("../public/images/pennywise1.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% 20%;
+  }
+
+  header ul {
+    color: white;
+  }
+
+  header ul li {
+    display: inline;
+    margin: 1em;
+    list-style-type: none;
+  }
+
+  header ul li a {
+    text-decoration: none;
+    color: white;
+  }
+
+  header ul li a:hover {
+    text-decoration: underline;
+  }
+
+  section {
+    margin: 2em;
+    background-color: lightgray;
+    border-radius: 1em;
+    overflow: hidden;
+  }
+
+  .incomeIntro {
+    text-align: center;
+  }
+
+  .incomeIntro ul {
+    list-style-type: none;
+  }
+
+  input {
+    text-align: center;
+    width: 15em;
+    padding: 0.5em 0.5em;
+    border-radius: 2em;
+  }
+  
+  button {
+    padding: 0.5em;
+    cursor: pointer;
+    border-radius: 2em;
+    border: solid 1px;
+    color: black;
+    margin: 1em;
+  }
+  
+  button:hover {
+    border: solid 2px;
+  }
+  
+
