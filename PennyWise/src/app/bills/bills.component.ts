@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { DataService } from '../data.service';
 import { get, onValue, push, ref, set } from 'firebase/database';
 import { database } from '../../../fb.config';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-bills',
@@ -22,7 +23,8 @@ export class BillsComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -59,11 +61,14 @@ export class BillsComponent implements OnInit {
     // Capitalize the first letter of the bill name
     const capitalizedBillName = billName.charAt(0).toUpperCase() + billName.slice(1);
   
+    // Round up the bill amount to the nearest dollar
+    const roundedBillAmount = Math.ceil(billAmount);
+  
     const dbRef = ref(database, '/bills/0');
   
     get(dbRef)
       .then((snapshot) => {
-        const currentBills = (snapshot.val() as Record<string, number>) || {};
+        const currentBills = snapshot.val() || {};
   
         // Create a new object with only non-numeric keys
         const cleanedBills: Record<string, number> = {};
@@ -73,8 +78,8 @@ export class BillsComponent implements OnInit {
           }
         });
   
-        // Add the new bill with capitalized name
-        cleanedBills[capitalizedBillName] = Number(billAmount);
+        // Add the new bill with capitalized name and rounded amount
+        cleanedBills[capitalizedBillName] = roundedBillAmount;
   
         // Update the database
         set(dbRef, cleanedBills)
@@ -92,7 +97,6 @@ export class BillsComponent implements OnInit {
         console.error('Error reading current bills:', error);
       });
   }
-
   fbDeleteBill(billName: string) {
     const dbRef = ref(database, '/bills/0');
   
@@ -125,5 +129,16 @@ export class BillsComponent implements OnInit {
     const roundedPercentage = Math.round(percentage * 10) / 10;
 
     return roundedPercentage.toFixed(1) + '%';
+  }
+
+  finished(){
+        // Calculate total amount of bills
+        this.totalAmountOfBills = this.bills.reduce(
+          (total, bill) => total + bill.amount,
+          0
+        );
+        localStorage.setItem('totalAmountOfBills', this.totalAmountOfBills.toString())
+        console.log(this.totalAmountOfBills)
+        this.router.navigate(['/goals'])
   }
 }

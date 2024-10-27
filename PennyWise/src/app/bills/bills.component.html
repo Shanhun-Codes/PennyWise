@@ -34,7 +34,7 @@
         Total: {{totalAmountOfBills | currency}} | Remaining monthly balance:
         {{(taxedIncome / 12) - totalAmountOfBills | currency}}
       </p>
-    <p>Annual post-tax remainder: {{ taxedIncome | currency }}</p>
-    <button style="background-color: lightgreen">Finished</button>
+    <p>Annual post-tax remainder: {{ taxedIncome - (totalAmountOfBills * 12) | currency }}</p>
+    <button (click)="finished()" style="background-color: lightgreen">Finished</button>
   </div>
 </section>
