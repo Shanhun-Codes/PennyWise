@@ -3,7 +3,7 @@
     <ul>
         <li *ngFor="let bill of bills">
           {{ bill.name }} ${{ bill.amount }}
-          <span class="amount">{{ calculatePercentage(bill.amount) }}</span>
+          <span class="amount">{{ calculatePercentage(bill.amount) }}</span><div class="remove" (click)="fbDeleteBill(bill.name)">X</div>
         </li>
       </ul>
   </div>

@@ -92,6 +92,32 @@ export class BillsComponent implements OnInit {
         console.error('Error reading current bills:', error);
       });
   }
+
+  fbDeleteBill(billName: string) {
+    const dbRef = ref(database, '/bills/0');
+  
+    get(dbRef)
+      .then((snapshot) => {
+        const currentBills = snapshot.val() 
+  
+        // Remove the bill
+        delete currentBills[billName];
+  
+        // Update the database
+        set(dbRef, currentBills)
+          .then(() => {
+            console.log('Bill deleted successfully');
+            this.fbGetData(); // Refresh the data
+          })
+          .catch((error) => {
+            console.error('Error deleting bill:', error);
+          });
+      })
+      .catch((error) => {
+        console.error('Error reading current bills:', error);
+      });
+  }
+
   calculatePercentage(billAmount: number): string {
     if (this.taxedIncome <= 0 || !billAmount) return 'N/A';
 

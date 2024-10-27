@@ -79,5 +79,17 @@ header {
   .amount {
     margin-left: auto;
   }
+
+  .remove {
+    float: right;
+    padding: 5px;
+    width: 18px;
+    text-align: center;
+    border-radius: 20px;
+    color: crimson;
+    cursor: pointer;
+    margin-left: 10px;
+    background: #fff;
+  }
   
 
