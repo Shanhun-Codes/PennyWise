@@ -8,10 +8,14 @@ import { DataService } from './app/data.service';
 // Combine appConfig and AppRoutesProvider
 const combinedConfig = {
   ...appConfig,
-  providers: [...(appConfig.providers || []), ...AppRoutesProvider,
- provideHttpClient(), DataService],
+  providers: [
+    ...(appConfig.providers || []),
+    ...AppRoutesProvider,
+    provideHttpClient(),
+    DataService,
+  ],
 };
 
-bootstrapApplication(AppComponent, combinedConfig).catch(
-  (err) => console.error(err)
+bootstrapApplication(AppComponent, combinedConfig).catch((err) =>
+  console.error(err)
 );

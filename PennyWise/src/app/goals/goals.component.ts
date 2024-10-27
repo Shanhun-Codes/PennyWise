@@ -14,18 +14,22 @@ import { database } from '../../../fb.config';
 export class GoalsComponent implements OnInit {
   payFrequencies: any[] = ['Monthly', 'Semimonthly', 'Biweekly', 'Weekly'];
   selectedFrequency: string = '';
-  totalAmountOfBills: number = 0;
-  billTransferAmount: number = 0;
-  annualBills: number = 0;
-  amountOfPays: number = 0;
-  remainingPaycheckMessage: string = '';
-  taxedIncome: number = 0;
+  totalAmountOfBills: any = null;
+  billTransferAmount: any = null;
+  annualBills: any = null;
+  amountOfPays: any = null;
+  remainingPaycheck: any = null;
+  taxedIncome: any = null;
   goals: any[] = [];
   goalName: string = '';
   goalPercentage: any = null;
-  totalPercentage: number = 0;
-  percentageMessage: string = '';
+  totalPercentage: any = null;
+  goalTransferAmount: any = null;
+  goalAmount: any = null;
 
+  percentageMessage: string = '';
+  remainingPaycheckMessage: string = '';
+  goalAmoutMessage: string = '';
   frequencyMessage: string = '';
   weeklyMessage: string = '';
 
@@ -36,40 +40,50 @@ export class GoalsComponent implements OnInit {
       localStorage.getItem('totalAmountOfBills')
     );
     this.taxedIncome = Number(localStorage.getItem('taxedIncome'));
-    console.log(this.totalAmountOfBills);
     this.annualBills = this.totalAmountOfBills * 12;
     this.fbGetData();
+    this.calculateTransferAmount(this.goalAmount);
+  }
+
+  calculateTransferAmount(goalPercentage: number): number {
+    // Calculate the amount to transfer based on the goal percentage
+    const transferAmount = this.remainingPaycheck * (goalPercentage / 100);
+
+    // Round to two decimal places
+    return Math.round(transferAmount * 100) / 100;
   }
 
   onFrequencyChange() {
-    console.log(this.selectedFrequency);
     switch (this.selectedFrequency) {
       case 'Monthly':
         this.amountOfPays = 12;
         this.billTransferAmount = this.totalAmountOfBills;
+        this.goalAmoutMessage = 'Amount to transfer:';
         this.weeklyMessage = '';
-        console.log(this.billTransferAmount);
+        this.remainingPaycheck = (this.taxedIncome - this.annualBills) / this.amountOfPays
+
         break;
       case 'Semimonthly':
         this.amountOfPays = 24;
         this.billTransferAmount = this.annualBills / this.amountOfPays;
-        console.log(this.billTransferAmount);
+        this.goalAmoutMessage = 'Amount to transfer:';
         this.weeklyMessage = '';
-
+        this.remainingPaycheck = (this.taxedIncome - this.annualBills) / this.amountOfPays
         break;
       case 'Biweekly':
         this.amountOfPays = 26;
         this.billTransferAmount = this.annualBills / this.amountOfPays;
-        console.log(this.billTransferAmount);
+        this.goalAmoutMessage = 'Amount to transfer:';
         this.weeklyMessage = '';
-
+        this.remainingPaycheck = (this.taxedIncome - this.annualBills) / this.amountOfPays
         break;
       case 'Weekly':
         this.amountOfPays = 48;
         this.billTransferAmount = this.annualBills / this.amountOfPays;
+        this.goalAmoutMessage = 'Amount to transfer:';
         this.weeklyMessage =
           "PennyWise calculates your weekly transfers based on a 48-week year. This approach ensures you'll always be ahead on your bills, providing a buffer for months with extra weeks and helping you build a small reserve over time.";
-        console.log(this.billTransferAmount);
+          this.remainingPaycheck = (this.taxedIncome - this.annualBills) / this.amountOfPays
         break;
     }
 
@@ -84,7 +98,6 @@ export class GoalsComponent implements OnInit {
     onValue(dbRef, (snapshot) => {
       const data = snapshot.val();
       this.goals = data;
-      console.log(this.goals);
     });
   }
 
@@ -144,6 +157,5 @@ export class GoalsComponent implements OnInit {
       }
     });
   }
-
-  save() {}
+  
 }

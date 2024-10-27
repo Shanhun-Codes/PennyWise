@@ -35,7 +35,6 @@ export class BillsComponent implements OnInit {
     const dbRef = ref(database, '/bills/0');
     onValue(dbRef, (snapshot) => {
       const data = snapshot.val();
-      console.log(data);
       if (data) {
         this.bills = Object.entries(data).map(([name, amount]) => ({
           name,
@@ -57,19 +56,20 @@ export class BillsComponent implements OnInit {
       console.error('Bill name and amount are required');
       return;
     }
-  
+
     // Capitalize the first letter of the bill name
-    const capitalizedBillName = billName.charAt(0).toUpperCase() + billName.slice(1);
-  
+    const capitalizedBillName =
+      billName.charAt(0).toUpperCase() + billName.slice(1);
+
     // Round up the bill amount to the nearest dollar
     const roundedBillAmount = Math.ceil(billAmount);
-  
+
     const dbRef = ref(database, '/bills/0');
-  
+
     get(dbRef)
       .then((snapshot) => {
         const currentBills = snapshot.val() || {};
-  
+
         // Create a new object with only non-numeric keys
         const cleanedBills: Record<string, number> = {};
         Object.keys(currentBills).forEach((key) => {
@@ -77,14 +77,13 @@ export class BillsComponent implements OnInit {
             cleanedBills[key] = currentBills[key];
           }
         });
-  
+
         // Add the new bill with capitalized name and rounded amount
         cleanedBills[capitalizedBillName] = roundedBillAmount;
-  
+
         // Update the database
         set(dbRef, cleanedBills)
           .then(() => {
-            console.log('New bill added successfully');
             this.billName = '';
             this.billAmount = null;
             this.fbGetData();
@@ -99,14 +98,14 @@ export class BillsComponent implements OnInit {
   }
   fbDeleteBill(billName: string) {
     const dbRef = ref(database, '/bills/0');
-  
+
     get(dbRef)
       .then((snapshot) => {
-        const currentBills = snapshot.val() 
-  
+        const currentBills = snapshot.val();
+
         // Remove the bill
         delete currentBills[billName];
-  
+
         // Update the database
         set(dbRef, currentBills)
           .then(() => {
@@ -129,17 +128,19 @@ export class BillsComponent implements OnInit {
     const roundedPercentage = Math.round(percentage * 10) / 10;
 
     // return roundedPercentage.toFixed(1) + '%';
-    return `${roundedPercentage.toFixed(1)}% of income`
+    return `${roundedPercentage.toFixed(1)}% of income`;
   }
 
-  finished(){
-        // Calculate total amount of bills
-        this.totalAmountOfBills = this.bills.reduce(
-          (total, bill) => total + bill.amount,
-          0
-        );
-        localStorage.setItem('totalAmountOfBills', this.totalAmountOfBills.toString())
-        console.log(this.totalAmountOfBills)
-        this.router.navigate(['/goals'])
+  finished() {
+    // Calculate total amount of bills
+    this.totalAmountOfBills = this.bills.reduce(
+      (total, bill) => total + bill.amount,
+      0
+    );
+    localStorage.setItem(
+      'totalAmountOfBills',
+      this.totalAmountOfBills.toString()
+    );
+    this.router.navigate(['/goals']);
   }
 }

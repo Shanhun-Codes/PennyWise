@@ -1,14 +1,11 @@
-body {
-  margin: 0;
-  padding: 0;
-  background-color: black;
-  display: grid;
-  place-items: center;
+* {
+  align-items: center;
 }
 
 body {
   max-width: 1000px;
   margin: auto;
+  background-color: black;
 }
 
 header {
@@ -67,6 +64,11 @@ input {
   border-radius: 2em;
 }
 
+select {
+  text-align: center;
+  border-radius: 1em;
+}
+
 button {
   padding: 0.5em;
   cursor: pointer;
@@ -82,7 +84,7 @@ button:hover {
 
 #billsSection li,
 #goalSection li {
-  display: flex;
+  display: block;
   justify-content: space-between;
   margin-bottom: 5px;
   border-top: solid 0.5px;
@@ -90,7 +92,7 @@ button:hover {
 }
 
 .amount {
-  margin-left: auto;
+  float: right;
 }
 
 .remove {

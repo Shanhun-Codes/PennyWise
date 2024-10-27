@@ -8,7 +8,8 @@ export class DataService {
   constructor(private http: HttpClient) {}
 
   fetchData() {
-    return this.http.get('https://pennywise-189a4-default-rtdb.firebaseio.com/.json');
+    return this.http.get(
+      'https://pennywise-189a4-default-rtdb.firebaseio.com/.json'
+    );
   }
-
 }

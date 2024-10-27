@@ -7,7 +7,7 @@ import { IncomeComponent } from './income/income.component';
   standalone: true,
   imports: [RouterOutlet, RouterLink, IncomeComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent {
   title = 'PennyWise';

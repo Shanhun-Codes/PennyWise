@@ -8,17 +8,27 @@
     <p style="color: green">{{ weeklyMessage }}</p>
     <p>
       {{ remainingPaycheckMessage
-      }}{{ (taxedIncome - annualBills) / amountOfPays | currency }}
+      }}{{ remainingPaycheck | currency }}
     </p>
   </div>
   <div id="goalSection">
     <h2>Lets talk Goals!</h2>
     <ul>
+      
       <li *ngFor="let goal of goals | keyvalue">
         {{ goal.key }} {{ goal.value }}%
+        <br>
+        <small>In 12 months you'll save {{ calculateTransferAmount(goal.value) * amountOfPays | currency }}</small>
+        
         <div class="remove" (click)="fbRemoveGoal(goal.key)">X</div>
+        <span class="amount"
+        >{{ goalAmoutMessage }}
+        {{ calculateTransferAmount(goal.value) | currency }}</span
+        >
       </li>
+      
     </ul>
+
   </div>
   <div style="text-align: center">
     <p style="color: red">{{ percentageMessage }}</p>
@@ -37,15 +47,6 @@
         placeholder="Allocate % (0-100) of paycheck"
       />
       <button type="submit">Submit</button>
-      <p style="margin: 0">
-        Would you like to save these dollar amounts to this device?
-      </p>
     </form>
-    <button
-      style="background-color: lightgreen; margin-top: 0.5em"
-      (click)="save()"
-    >
-      Save
-    </button>
   </div>
 </section>
