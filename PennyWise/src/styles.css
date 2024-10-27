@@ -1,95 +1,106 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: black;
+  display: grid;
+  place-items: center;
+}
+
+body {
+  max-width: 1000px;
+  margin: auto;
+}
+
 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 1em;
-    padding: 0 1em;
-    color: #fff;
-    border-radius: 0 0 2em 2em;
-    background-image: url("../public/images/pennywise1.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: 50% 20%;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1em;
+  padding: 0 1em;
+  color: #fff;
+  border-radius: 0 0 2em 2em;
+  background-image: url("../public/images/pennywise1.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 20%;
+}
 
-  header ul {
-    color: white;
-  }
+header ul {
+  color: white;
+}
 
-  header ul li {
-    display: inline;
-    margin: 1em;
-    list-style-type: none;
-  }
+header ul li {
+  display: inline;
+  margin: 1em;
+  list-style-type: none;
+}
 
-  header ul li a {
-    text-decoration: none;
-    color: white;
-  }
+header ul li a {
+  text-decoration: none;
+  color: white;
+}
 
-  header ul li a:hover {
-    text-decoration: underline;
-  }
+header ul li a:hover {
+  text-decoration: underline;
+}
 
-  section {
-    margin: 2em;
-    background-color: lightgray;
-    border-radius: 1em;
-    overflow: hidden;
-  }
+section {
+  margin: 2em;
+  background-color: lightgray;
+  border-radius: 1em;
+  overflow: hidden;
+}
 
-  .incomeIntro {
-    text-align: center;
-  }
+.incomeIntro {
+  text-align: center;
+}
 
- ul {
-    list-style-type: none;
-  }
+ul {
+  list-style-type: none;
+}
 
-  input {
-    text-align: center;
-    margin: 0 .5em;
-    width: 15em;
-    padding: 0.5em 0.5em;
-    border-radius: 2em;
-  }
-  
-  button {
-    padding: 0.5em;
-    cursor: pointer;
-    border-radius: 2em;
-    border: solid 1px;
-    color: black;
-    margin: 1em;
-  }
-  
-  button:hover {
-    border: solid 2px;
-  }
+input {
+  text-align: center;
+  margin: 0 0.5em;
+  width: 15em;
+  padding: 0.5em 0.5em;
+  border-radius: 2em;
+}
 
-  #billsSection li {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 5px;
-    border-top: solid .5px;
-    padding: 15px 0;
-  }
-  
-  .amount {
-    margin-left: auto;
-  }
+button {
+  padding: 0.5em;
+  cursor: pointer;
+  border-radius: 2em;
+  border: solid 1px;
+  color: black;
+  margin: 1em;
+}
 
-  .remove {
-    float: right;
-    padding: 5px;
-    width: 18px;
-    text-align: center;
-    border-radius: 20px;
-    color: crimson;
-    cursor: pointer;
-    margin-left: 10px;
-    background: #fff;
-  }
-  
+button:hover {
+  border: solid 2px;
+}
 
+#billsSection li,
+#goalSection li {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  border-top: solid 0.5px;
+  padding: 15px 0;
+}
+
+.amount {
+  margin-left: auto;
+}
+
+.remove {
+  float: right;
+  padding: 5px;
+  width: 18px;
+  text-align: center;
+  border-radius: 20px;
+  color: crimson;
+  cursor: pointer;
+  margin-left: 10px;
+  background: #fff;
+}

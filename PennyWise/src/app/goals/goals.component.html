@@ -1,27 +1,51 @@
 <section>
-  <div style="text-align: center;">
+  <div style="text-align: center">
     <select [(ngModel)]="selectedFrequency" (change)="onFrequencyChange()">
       <option value="">Select pay frequency</option>
       <option *ngFor="let frequency of payFrequencies">{{ frequency }}</option>
     </select>
     <p>{{ frequencyMessage }}</p>
-    <p style="color: green;">{{ weeklyMessage }}</p>
+    <p style="color: green">{{ weeklyMessage }}</p>
     <p>
       {{ remainingPaycheckMessage
       }}{{ (taxedIncome - annualBills) / amountOfPays | currency }}
     </p>
   </div>
-  <div>
-    <p><span><div class="remove">X</div></span></p>
+  <div id="goalSection">
+    <h2>Lets talk Goals!</h2>
+    <ul>
+      <li *ngFor="let goal of goals | keyvalue">
+        {{ goal.key }} {{ goal.value }}%
+        <div class="remove" (click)="fbRemoveGoal(goal.key)">X</div>
+      </li>
+    </ul>
   </div>
-  <div style="text-align: center;">
-    <form (ngSubmit)="fbPostGoal()">
-        <label>Add Goal:</label>
-        <input type="text" placeholder="What is this goal for?">
-        <input type="number" placeholder="Allocate % (0-100) of paycheck">
-        <button type="submit">Submit</button>
+  <div style="text-align: center">
+    <p style="color: red">{{ percentageMessage }}</p>
+    <form (ngSubmit)="fbPostGoal(goalName, goalPercentage)">
+      <label>Add Goal:</label>
+      <input
+        type="text"
+        [(ngModel)]="goalName"
+        name="name"
+        placeholder="What is this goal for?"
+      />
+      <input
+        type="number"
+        [(ngModel)]="goalPercentage"
+        name="goalPercentage"
+        placeholder="Allocate % (0-100) of paycheck"
+      />
+      <button type="submit">Submit</button>
+      <p style="margin: 0">
+        Would you like to save these dollar amounts to this device?
+      </p>
     </form>
-    <p style="margin: 0;">Would you like to save these dollar amounts to this device?</p>
-    <button style="background-color: lightgreen; margin-top: .5em;" (click)="save()">Save</button>
+    <button
+      style="background-color: lightgreen; margin-top: 0.5em"
+      (click)="save()"
+    >
+      Save
+    </button>
   </div>
 </section>

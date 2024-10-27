@@ -1,11 +1,13 @@
-import { CurrencyPipe, NgFor } from '@angular/common';
+import { CurrencyPipe, KeyValuePipe, NgFor } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { get, onValue, ref, set } from 'firebase/database';
+import { database } from '../../../fb.config';
 
 @Component({
   selector: 'app-goals',
   standalone: true,
-  imports: [NgFor, FormsModule, CurrencyPipe],
+  imports: [NgFor, FormsModule, CurrencyPipe, KeyValuePipe],
   templateUrl: './goals.component.html',
   styleUrl: './goals.component.css',
 })
@@ -16,8 +18,13 @@ export class GoalsComponent implements OnInit {
   billTransferAmount: number = 0;
   annualBills: number = 0;
   amountOfPays: number = 0;
-  remainingPaycheckMessage: string = ''
-  taxedIncome: number = 0
+  remainingPaycheckMessage: string = '';
+  taxedIncome: number = 0;
+  goals: any[] = [];
+  goalName: string = '';
+  goalPercentage: any = null;
+  totalPercentage: number = 0;
+  percentageMessage: string = '';
 
   frequencyMessage: string = '';
   weeklyMessage: string = '';
@@ -28,9 +35,10 @@ export class GoalsComponent implements OnInit {
     this.totalAmountOfBills = Number(
       localStorage.getItem('totalAmountOfBills')
     );
-    this.taxedIncome = Number(localStorage.getItem("taxedIncome"))
+    this.taxedIncome = Number(localStorage.getItem('taxedIncome'));
     console.log(this.totalAmountOfBills);
     this.annualBills = this.totalAmountOfBills * 12;
+    this.fbGetData();
   }
 
   onFrequencyChange() {
@@ -68,10 +76,74 @@ export class GoalsComponent implements OnInit {
     this.frequencyMessage = `To ensure you cover your bills, please transfer $${Math.ceil(
       this.billTransferAmount
     )} into a dedicated bills account with each paycheck.`;
-    this.remainingPaycheckMessage = `Your estimated remaining balance per paycheck is: `
+    this.remainingPaycheckMessage = `Your estimated remaining balance per paycheck is: `;
   }
 
-  fbPostGoal(){}
+  fbGetData() {
+    const dbRef = ref(database, '/goals/0');
+    onValue(dbRef, (snapshot) => {
+      const data = snapshot.val();
+      this.goals = data;
+      console.log(this.goals);
+    });
+  }
 
-  save(){}
+  fbRemoveGoal(goalName: string) {
+    const dbRef = ref(database, '/goals/0');
+
+    get(dbRef).then((snapshot) => {
+      const currentGoals = snapshot.val();
+      if (currentGoals && currentGoals.hasOwnProperty(goalName)) {
+        delete currentGoals[goalName];
+
+        set(dbRef, currentGoals);
+      }
+    });
+  }
+
+  fbPostGoal(goalName: string, goalPercentage: number) {
+    if (!goalName || goalPercentage === null || goalPercentage === undefined) {
+      return; // Exit if inputs are invalid
+    }
+
+    const dbRef = ref(database, 'goals/0');
+
+    get(dbRef).then((snapshot) => {
+      let currentGoals = snapshot.val() || {};
+
+      // Capitalize the first letter of the goal name
+      const capitalizedGoalName =
+        goalName.charAt(0).toUpperCase() + goalName.slice(1);
+
+      // Ensure the percentage is between 0 and 100
+      const clampedPercentage = Math.min(Math.max(goalPercentage, 0), 100);
+
+      // Calculate total percentage
+      let totalPercentage = Object.values(currentGoals).reduce(
+        (sum: number, value) => {
+          return sum + (typeof value === 'number' ? value : 0);
+        },
+        0
+      );
+      totalPercentage += clampedPercentage;
+
+      if (totalPercentage > 100) {
+        this.percentageMessage =
+          'Total percentage exceeds 100%. Please adjust your goals.';
+        return;
+      } else {
+        // Add the new goal
+        currentGoals[capitalizedGoalName] = clampedPercentage;
+
+        // Update the database
+        set(dbRef, currentGoals).then(() => {
+          this.goalName = ''; // Clear input field
+          this.goalPercentage = null; // Reset percentage
+          this.fbGetData(); // refresh data
+        });
+      }
+    });
+  }
+
+  save() {}
 }
