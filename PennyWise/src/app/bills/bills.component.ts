@@ -128,7 +128,8 @@ export class BillsComponent implements OnInit {
     const percentage = (billAmount / (this.taxedIncome / 12)) * 100;
     const roundedPercentage = Math.round(percentage * 10) / 10;
 
-    return roundedPercentage.toFixed(1) + '%';
+    // return roundedPercentage.toFixed(1) + '%';
+    return `${roundedPercentage.toFixed(1)}% of income`
   }
 
   finished(){
