@@ -1,0 +1,4 @@
+{
+  "bills": [{ "Rent": 770, "Phone": 71.5, "Utilities": 100 }],
+  "goals": [{ "Savings": 25, "Motorbike": 30 }]
+}

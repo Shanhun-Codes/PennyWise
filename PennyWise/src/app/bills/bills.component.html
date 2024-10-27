@@ -1,1 +1,40 @@
-<p>bills works!</p>
+<section id="billsSection">
+  <div>
+    <ul>
+        <li *ngFor="let bill of bills">
+          {{ bill.name }} ${{ bill.amount }}
+          <span class="amount">{{ calculatePercentage(bill.amount) }}</span>
+        </li>
+      </ul>
+  </div>
+  <div style="text-align: center">
+    <form (ngSubmit)="fbPostData(billName, billAmount)">
+      <label for="billName">Add bill:</label>
+      <input
+        type="text"
+        id="billName"
+        name="billName"
+        placeholder="What's this bill for?"
+        [(ngModel)]="billName"
+        required
+      />
+      <input
+        type="number"
+        id="billAmount"
+        name="billAmount"
+        placeholder="Dollar amount:"
+        [(ngModel)]="billAmount"
+        required
+      />
+      <button type="submit" [disabled]="!billName || !billAmount">
+        Add bill
+      </button>
+    </form>
+    <p>
+        Total: {{totalAmountOfBills | currency}} | Remaining monthly balance:
+        {{(taxedIncome / 12) - totalAmountOfBills | currency}}
+      </p>
+    <p>Annual post-tax remainder: {{ taxedIncome | currency }}</p>
+    <button style="background-color: lightgreen">Finished</button>
+  </div>
+</section>

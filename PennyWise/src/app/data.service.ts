@@ -10,4 +10,5 @@ export class DataService {
   fetchData() {
     return this.http.get('https://pennywise-189a4-default-rtdb.firebaseio.com/.json');
   }
+
 }

@@ -27,9 +27,8 @@
   <p>Ready to take control of your finances? Let's get started!</p>
   <div>
     <form (ngSubmit)="calculateIncome(income)">
-      <input type="number" [(ngModel)]="income" name="income"><br>
+      <input type="number" [(ngModel)]="income" name="income" placeholder="Pre-tax annual income:"><br>
       <button type="submit">Submit</button>
     </form>
-    <p>Post tax income: {{taxedIncome | currency}}</p>
   </div>
 </div>
