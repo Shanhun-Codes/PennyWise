@@ -4,6 +4,7 @@
 
 body {
   max-width: 1000px;
+  min-width: 370px;
   margin: auto;
   background-color: black;
 }
@@ -52,8 +53,13 @@ section {
   text-align: center;
 }
 
+h2{
+  margin: 1em;
+}
+
 ul {
   list-style-type: none;
+  padding: 0 1em;
 }
 
 input {
@@ -105,4 +111,34 @@ button:hover {
   cursor: pointer;
   margin-left: 10px;
   background: #fff;
+}
+
+@media screen and (max-width: 750px) {
+
+  .formDivMedia {
+    display: flex;
+    justify-content: center;
+  }
+
+  input {
+    display: block;
+    margin-top: 1em;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  header {
+    text-align: center;
+    display: block;
+  }
+
+  h1 {
+    color: red;
+    font-size: 4em;
+    margin-bottom: 0;
+  }
+
+  header ul {
+    padding: 0 0 2em 0;
+  }
 }

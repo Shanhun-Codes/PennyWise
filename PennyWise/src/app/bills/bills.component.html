@@ -3,12 +3,12 @@
     <ul>
       <li *ngFor="let bill of bills">
         {{ bill.name }} ${{ bill.amount }}
-        <span class="amount">{{ calculatePercentage(bill.amount) }}</span>
         <div class="remove" (click)="fbDeleteBill(bill.name)">X</div>
+        <span class="amount">{{ calculatePercentage(bill.amount) }}</span>
       </li>
     </ul>
   </div>
-  <div style="text-align: center">
+  <div class="formDivMedia" style="text-align: center">
     <form (ngSubmit)="fbPostData(billName, billAmount)">
       <label for="billName">Add bill:</label>
       <input
@@ -31,6 +31,9 @@
         Add bill
       </button>
     </form>
+  </div>
+  <div style="text-align: center;">
+
     <p>
       Total: {{ totalAmountOfBills | currency }} | Remaining monthly balance:
       {{ taxedIncome / 12 - totalAmountOfBills | currency }}
